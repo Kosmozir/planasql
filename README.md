@@ -1,4 +1,4 @@
-# PlanaDB
+# planasql
 
 This repository is a simple replica of sqlite written in c. It is only used for learning and research and should not be deployed.
 
@@ -11,6 +11,11 @@ This repository is a simple replica of sqlite written in c. It is only used for 
 mkdir build && cd build
 cmake ..
 cmake --build .
+```
+
+**Running:**
+```
+./planasql
 ```
 
 **License:** MIT
