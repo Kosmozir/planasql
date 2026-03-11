@@ -7,21 +7,11 @@
 #include "compiler.h"
 
 void print_prompt(void) {
-    printf("PlanaDB> ");
-}
-
-MetaCommandResult meta_handler(InputBuffer* input_buffer) {
-    if(strcmp(input_buffer->buffer, ".exit") == 0) {
-        printf("bye.\n");
-        exit(EXIT_SUCCESS);
-    }
-
-    else {
-        return META_COMMAND_UNRECOGNIZED_COMMAND;
-    }
+    printf("planasql > ");
 }
 
 int main(void) {
+    Table* table = new_table();
     InputBuffer* input_buffer = new_input_buffer();
     
     while(1) {
@@ -45,12 +35,23 @@ int main(void) {
         case PREPARE_SUCCESS:
             break;
         
+        case PREPARE_SYNTAX_ERROR:
+            printf("Syntax error, could not prepare statement\n");
+            continue;
+        
         case PREPARE_UNRECOGNIZED_STATEMENT:
             printf("Unrecognized keyword at start of '%s'\n", input_buffer->buffer);
             continue;
         }
 
-        execute_command(&statement);
-        printf("Executed command.\n");
+        switch(exec_statement(&statement, table)) {
+            case EXECUTE_SUCCESS:
+                printf("Execution successful\n");
+                break;
+            
+            case EXECUTE_TABLE_FULL:
+                printf("ERROR: Table full\n");
+                break;
+        }
     }
 }

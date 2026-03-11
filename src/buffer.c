@@ -6,6 +6,7 @@ InputBuffer* new_input_buffer(void) {
     new_buffer->buffer = NULL;
 }
 
+// read stdin using getline and apply it to a new InputBuffer
 void read_buffer_line(InputBuffer* input_buffer) {
     ssize_t read_bytes = getline(&(input_buffer->buffer), &(input_buffer->buffer_length), stdin);
 
